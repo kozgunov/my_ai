@@ -1,0 +1,192 @@
+/*#include <iostream>
+
+using namespace std;
+
+int position_queen(int q, int r, int n, int counter);
+int position_rook(int q, int r, int n, int counter);
+
+int main()
+{
+	int q = 0;
+	int r;
+	int n;
+	int counter = 1;
+	//cin >> q;
+	cin >> r;
+	cin >> n;
+	cout << position_rook(q, r, n, counter) << endl;
+
+}
+
+int position_queen(int q, int r, int n, int counter)
+{
+	cout << "entry" << endl;
+	if (q > n || r > n)
+	{
+		cout << "extra exit" << endl;
+		return 0;
+	}
+	else if (n == 1)
+	{
+		cout << "n = 1 => counter = " << counter << endl;
+		return counter;
+	}
+	else if (n == 2 && r == 2)
+	{
+		cout << "2 rook in 2x2 field" << endl;
+		return counter * 2;
+	}
+	else if (q > 1 && n > 1 || r > 1 && n > 1)
+	{
+		if (n > q)
+		{
+			cout << "1. (n > q) - true, 2: " << counter << " * " << n + n + n - 1 - 1 << " = " << counter * (n + n + n - 1 - 1) << endl;
+			counter = counter * (3*n - 2);
+		}
+		else
+		{
+			cout << "1. (n > q) - false, 2: " << counter << "  * " << n + n + n - 1 - 1 << " = " << counter * (n + n + n - 1 - 1) << endl;
+			counter = counter * (n + n + n - 1 - 1);
+		}
+		position_queen(q - 1, r, n - 1, counter);
+	}
+	else
+	{
+		cout << "exit with 0 :" << q << n << endl;
+		return 0;
+	}
+}
+	//cout << "1 : " << q << n << counter << endl;
+
+
+
+int position_rook(int q, int r, int n, int counter)
+{
+	if (r > 1)
+	{
+		counter = counter * (2*n) ; // 1 * 8 = 8 // 8 * 3 * 3 = 72
+		position_rook(q, r - 1, n - 1, counter);
+	}
+	else if (r == 1)
+	{
+		return counter * n * n;
+	}
+	else if (r == 0 || n == 1)
+	{
+		return counter;
+	}
+	else
+	{
+		cout << "exit with 0 :" << q << r << n << endl;
+		return 0;
+	}
+}
+
+
+
+
+n * n - (n)- 2 * (n - 1) = 64 - 22// 22 = 64 - 24 + 2 = 64 - 22 = 42 
+n * n - (n)-2 * (n - 1) = 42 - 19 // 17 = 42 - 21 = 42 - 19 + 2 = 42 - 17 = 25
+n * n - (n)-2 * (n - 1) = 33 - 16 // 10 = 25 - 14 + 2 = 13 
+n * n - (n)-2 * (n - 1) = 17 - 13 // 6  
+n * n - (n)-2 * (n - 1) = 4 - 10  // 4
+n * n - (n)-2 * (n - 1) = 4 - 10  // 2
+n * n - (n)-2 * (n - 1) = 4 - 10  // 1
+*/
+
+#include <iostream>
+
+
+#define N 8
+
+int isSafe_2(char board[][N], int r, int c) {
+	for (int i = 0; i < r; i++) {
+		if (board[i][c] == 'R') {
+			return 0;
+		}
+	}
+	return 1;
+}
+
+void nRook(char board[][N], int r, int* count) {
+	if (r == N) {
+		(*count)++;
+
+		return;
+	}
+
+	for (int i = 0; i < N; i++)
+
+	{
+		if (isSafe_2(board, r, i)) {
+			board[r][i] = 'R';
+			nRook(board, r + 1, count);
+			board[r][i] = '-';
+		}
+	}
+}
+
+int isSafe_1(char board[][N], int r, int c) {
+	for (int i = 0; i < r; i++) {
+		if (board[i][c] == 'Q') {
+			return 0;
+		}
+	}
+	for (int i = r, j = c; i >= 0 && j >= 0; i--, j--) {
+		if (board[i][j] == 'Q') {
+			return 0;
+		}
+	}
+	for (int i = r, j = c; i >= 0 && j < N; i--, j++) {
+		if (board[i][j] == 'Q') {
+			return 0;
+		}
+	}
+
+	return 1;
+}
+
+void nQueen(char board[][N], int r, int* count) {
+	if (r == N) {
+		(*count)++;
+		return;
+	}
+
+	for (int i = 0; i < N; i++)
+
+	{
+		if (isSafe_1(board, r, i)) {
+			board[r][i] = 'Q';
+			nQueen(board, r + 1, count);
+			board[r][i] = '-';
+		}
+	}
+}
+int C(int n, int k) {
+	if (k < 0 || k > n) {
+		return 0;
+	}
+	if (k == 0 || k == n) {
+		return 1;
+	}
+	return C(n - 1, k - 1) + C(n - 1, k);
+}
+int main() {
+	char board[N][N];
+	int q, r = 0;
+	std::cin >> q >> r;
+	if (q == 0) {
+		int count = 0;
+		nRook(board, 0, &count);
+		printf("%d", C(N, r) * C(N, r) * count);
+	}
+	if (r == 0) {
+		int count = 0;
+		nQueen(board, 0, &count);
+		printf("%d", C(N, q) * C(N, q) * count);
+	}
+	else {
+
+	}
+	return 0;
+}
