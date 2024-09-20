@@ -61,8 +61,6 @@ def main(image_path): # apply the functions here
 
     return inpainted_image
 
-
-for image_path in listdir('path_to_your_image'):
-    image_path = 'C:Users/user/pythonProject' # test the pipeline on an example image
-    processed_image = main(image_path)
+for images in listdir('C:Users/user/pythonProject'):
+    processed_image = main(images)
 
