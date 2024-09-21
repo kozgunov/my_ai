@@ -14,12 +14,11 @@ RSS_FEEDS = {
 @app.route('/')
 def index():
     articles = []
-    for source, feed in RSS_FEEDS.item():
+    for source, feed in RSS_FEEDS.items():
         parsed_feed = feedparser.parse(feed)
         entries = [(source, entry) for entry in parsed_feed.entries]
         articles.extend(entries)
-
-    articles = sorted(articles, key=lambda x: x[1].published_parsed, reverse=True)
+    articles = sorted(articles, key=lambda x: getattr(x[1], 'published_parsed', None), reverse=True)
 
     page = request.args.get('page', 1, type=int)
     per_page = 10
@@ -36,19 +35,18 @@ def search():
     query = request.args.get('q')
     articles = []
 
-    for source, feed in RSS_FEEDS.item():
+    for source, feed in RSS_FEEDS.items():
         parsed_feed = feedparser.parse(feed)
         entries = [(source, entry) for entry in parsed_feed.entries]
         articles.extend(entries)
 
     results = [article for article in articles if query.lower() in article[1].title.lower()]
 
-    return render_template('search_result.html', articles=reluts, query=query)
+    return render_template('search_result.html', articles=results, query=query)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-
 
 
 
