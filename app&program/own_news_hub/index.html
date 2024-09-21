@@ -8,6 +8,10 @@
         <h2><a href="{{ article[1].link }}">{{ article[1].title }}</a></h2>
         <p>Published: {{ article[1].published if article[1].published else 'N/A' }}</p>
         <p>Source: {{ article[0] }}</p>
+        <form action="{{ url_for('fetch_full_text') }}" method="POST" style="display:inline;">
+            <input type="hidden" name="article_link" value="{{ article[1].link }}">
+            <button type="submit">Get Full Text</button>
+        </form>
       </article>
     {% endfor %}
   </div>
@@ -22,4 +26,3 @@
     {% endif %}
   </div>
 {% endblock %}
-
