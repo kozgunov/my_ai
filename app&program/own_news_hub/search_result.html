@@ -1,21 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>News Hub</title>
-</head>
-<body>
-  <header>
-    <h1>RSS Aggregator</h1>
-    <form action="{{ url_for('search') }}" method="GET">
-      <input type="text" name="q" placeholder="Search For Keyword" required>
-      <input type="submit" value="Search">
-    </form>
-  </header>
+{% extends 'base.html' %}
 
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-</body>
-</html>
-
+{% block content %}
+  <h2>Search Results For: {{ query }}</h2>
+  <div class="articles">
+    {% if articles %}
+      {% for article in articles %}
+        <article>
+          <h2><a href="{{ article[1].link }}">{{ article[1].title }}</a></h2>
+          <p>Published: {{ article[1].published if article[1].published else 'N/A' }}</p>
+          <p>Source: {{ article[0] }}</p>
+        </article>
+      {% endfor %}
+    {% else %}
+      <p>No results found for "{{ query }}".</p>
+    {% endif %}
+  </div>
+{% endblock %}
