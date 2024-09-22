@@ -75,7 +75,7 @@ def search():
     if sort_by == 'date':
         results = sorted(results, key=lambda x: getattr(x[1], 'published_parsed', None), reverse=True)
     elif sort_by == 'source':
-        results = sorted(results, key=lambda x: x[0].lower())  # Sort sources alphabetically, ignoring case
+        results = sorted(results, key=lambda x: x[0].lower())  # sort sources alphabetically, ignoring case
 
     return render_template('search_result.html', articles=results, query=query)
 
@@ -100,8 +100,8 @@ def fetch_full_text():
 
     #try:
     #    response = requests.get(article_link)
-    #    response.raise_for_status()  # Check for HTTP errors
-    #    parser = MyHTMLParser() # Use HTMLParser to extract text from the HTML
+    #    response.raise_for_status()  # check for HTTP errors
+    #    parser = MyHTMLParser() # apply HTMLParser to extract text from the HTML
     #    parser.feed(response.text)
     #    full_text = parser.get_full_text()
     #    return render_template('full_text.html', full_text=full_text, previous_page=request.referrer)
