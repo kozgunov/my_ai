@@ -1,4 +1,4 @@
- RSS News Hub
+# RSS News Hub
 
 RSS News Hub is a Flask-based web application that aggregates articles from multiple RSS feeds, allowing users to search, filter, and view full content for the last month's news. The application supports search by keyword, filter by date, sorting by source or date, and pagination of results.
 
