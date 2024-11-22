@@ -3,7 +3,7 @@ import os
 import datetime
 import requests
 from bs4 import BeautifulSoup
-from distribution import SimpleRAG
+from retrieve import SimpleRAG
 from typing import List
 
 
